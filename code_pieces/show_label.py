@@ -47,35 +47,7 @@ def draw_mask_on_jpg(png_folder, jpg_folder, save_folder, resize=None, mode='ope
             cv2.imwrite(save_path, image)
         elif mode == 'pillow':
             image.save(save_path, "JPEG")
-    """
-    Args:
-        png_folder (str:dir_path): jpg_folder
-        jpg_folder (str:dir_path): png_folder
-        save_folder (str:dir_path): draw png(binary) boundaries on jpg    -->   save_folder
-        resize (optional: None or tuple(target_width, target_height)): whether resize jpg png
-    """
-    
-    for mask_name in tqdm(os.listdir(png_folder)):
-        mask_path = os.path.join(png_folder, mask_name)
-        jpg_path = os.path.join(jpg_folder, mask_name.replace('.png', '.jpg'))
-        assert os.path.exists(mask_path), f"{mask_path} not exists"
-        assert os.path.exists(jpg_path), f"{jpg_path} not exists"
-
-        mask = cv2.imread(mask_path, cv2.IMREAD_GRAYSCALE)
-        image = cv2.imread(jpg_path)
-
-        if resize is not None:
-            assert resize is None or (isinstance(resize, tuple) and len(resize) == 2), f"{resize} is in a wrong format"
-            image = cv2.resize(image, resize)
-            mask = cv2.resize(mask, resize)
-
-        countours, _ = cv2.findContours(mask, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-
-        cv2.drawContours(image, countours, -1, (0, 255, 0), 2)
-
-        save_path = os.path.join(save_folder, mask_name.replace('.png', '.jpg'))
-        cv2.imwrite(save_path, image)
-
+            
 def draw_json_on_jpg(json_folder, jpg_folder, save_folder, resize=None, mode='opencv'):
     """
     Draw annotations defined in JSON files on corresponding JPG images.
