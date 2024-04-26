@@ -101,6 +101,3 @@ def draw_json_on_jpg(json_folder, jpg_folder, save_folder, resize=None, mode='op
 
 
 
-
-
-
