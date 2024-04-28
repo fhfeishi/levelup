@@ -1,75 +1,15 @@
+# ----------------------------------------------------#
+#   将单张图片预测、摄像头检测和FPS测试功能
+#   整合到了一个py文件中，通过指定mode进行模式的修改。
+# ----------------------------------------------------#
+import time
 from PIL import Image, ImageFont, ImageDraw, ImageOps
+import cv2
 import numpy as np
 import random
-import cv2
-import time
+from deeplab import DeeplabV3
 
-
-# 一般设置 input_size: [640, 640]   这个其实随意啦
-# 所以在Dataset里面可以设置一个  随机起点(x, y) -- ([0, img-height - 640], [0, img-width - 640])
-#   single_class:   threshold:   sum(mask_pxel > 0) > 20% (640x640)
-#   multi_class:  背景一般还是要避免的， 也可以这样处理了  threshold:   sum(mask_pxel > 0) > 20% (640x640)
-#                 如果说一定要在多种目标里面检测到某个、某几个类别的目标， 因为是语义分割，那么label 0 1 2 3 4 5 6 7 8 9， 据此设置
-# -----------------------------------------------------------------------------------#
-# ------------       threshold:   pix>0         -------------------------------------#
-# width, height = jpg.size
-#         if width >= 640 and height >= 640:
-#             while True:
-#                 # 随机选择裁剪起点
-#                 x = random.randint(0, width - 640)
-#                 y = random.randint(0, height - 640)
-#
-#                 # 裁剪图像
-#                 jpg_crop = jpg.crop((x, y, x + 640, y + 640))
-#                 png_crop = png.crop((x, y, x + 640, y + 640))
-#
-#                 # 将PNG裁剪图像的像素值转换为 numpy 数组以方便处理
-#                 png_array = np.array(png_crop)
-#
-#                 # 计算非背景像素的数量（假设背景标签为0）
-#                 non_background_pixels = np.sum(png_array != 0)
-#
-#                 # 检查非背景像素是否满足要求
-#                 if non_background_pixels > 5000:
-#                     break
-#                 break
-
-class Dataset():
-    def __init__(self, image_path, mask_path):
-        self.image_path = image_path
-        self.mask_path = mask_path
-    def __getitem__(self):
-        jpg =  Image.open(self.image_path)
-        png = Image.open(self.mask_path)  # 灰度图啊
-
-        # -------------------------------------------------------------#
-        # 640*640 的crop, target-pixel 足够多 > 5000
-        # ---------------------------------------------------------------#
-        width, height = jpg.size
-        if width >= 640 and height >= 640:
-            while True:
-                # 随机选择裁剪起点
-                x = random.randint(0, width - 640)
-                y = random.randint(0, height - 640)
-
-                # 裁剪图像
-                jpg_crop = jpg.crop((x, y, x + 640, y + 640))
-                png_crop = png.crop((x, y, x + 640, y + 640))
-
-                # 将PNG裁剪图像的像素值转换为 numpy 数组以方便处理
-                png_array = np.array(png_crop)
-
-                # 计算非背景像素的数量（假设背景标签为0）
-                non_background_pixels = np.sum(png_array != 0)
-
-                # 检查非背景像素是否满足要求
-                if non_background_pixels > 5000:
-                    break
-                break
-
-def semantic_seg(input):
-    return input
-
+from tqdm import tqdm
 
 class ImageBlock:
     def __init__(self, block, row_index, col_index):
@@ -99,7 +39,7 @@ class pil_img:
         self.cols_num = None
         self.rows_num = None
 
-    def image_resize2(self, image, target_size=(3000, 2400), padding=None, plot=None, fixed_acpect_ratio=False):
+    def image_resize2(self, image, target_size=(3000, 2400), padding=None, plot=None):
             print(type(image))
             # 获取原始图像的宽度和高度
             width, height = image.size
@@ -411,10 +351,20 @@ class pil_img:
                                 # 新建画布，然后一块一块往画布上写入，后写入的会覆盖之前的
                                 canvas.show()
 
+                    # # crop
+                    # if crop is not None:
+                    #
+                    #     return None
+                    #
+                    # # cat_back
+                    # if cat_back is not None:
+                    #
+                    #     return None
             if stamp:
                 print("box_num", len(image_blocks))
 
             # # 显示拼接后的图像
+
             if plot and all_box_show:
                 # 全部的overlap框
                 # print("a")
@@ -428,11 +378,8 @@ class pil_img:
 
             return image_blocks, padded_image
 
-
-
-
-
-# 检测阶段 crop ---model--  crop_out   --- cat
+import warnings
+warnings.filterwarnings('ignore')
 
 if __name__ == "__main__":
     # -------------------------------------------------------------------------#
@@ -447,6 +394,7 @@ if __name__ == "__main__":
     #   'dir_predict'       表示遍历文件夹进行检测并保存。默认遍历img文件夹，保存img_out文件夹，详情查看下方注释。
     #   'export_onnx'       表示将模型导出为onnx，需要pytorch1.7.1以上。
     # ----------------------------------------------------------------------------------------------------------#
+    # mode = "dir_predict"
     mode = "predict"
     # -------------------------------------------------------------------------#
     #   count               指定了是否进行目标的像素点计数（即面积）与比例计算
@@ -462,12 +410,12 @@ if __name__ == "__main__":
     #
     #   dir_origin_path和dir_save_path仅在mode='dir_predict'时有效
     # -------------------------------------------------------------------------#
-    dir_origin_path = "img/"
-    dir_save_path = "img_out/"
+    dir_origin_path = "img/test428a"
+    dir_save_path = "img/result428a"
     # ------------------------------------------------------------------------------------------#
     # 使用pillow 实现滑动窗口
     pillow_crop_silde = True
-    # 将有重叠的窗口 去重叠然后拼接， True就是简单的直接拼接--不好看
+    # 将有重叠的窗口 去重叠然后拼接， True就是简单的直接拼接   --不好看
     cat_pillow_image_blocks = False
     # 去掉padding黑边
     show_on_resized_image = True
@@ -561,6 +509,7 @@ if __name__ == "__main__":
 
                     # 粘贴r_image到result_image上对应的位置
                     result_image.paste(r_image, (x_start, y_start))
+
                 # 去掉padding 黑边
                 if show_on_resized_image:
                     # 去掉原画布（padded_img的right bottom补零黑边）
@@ -573,9 +522,15 @@ if __name__ == "__main__":
                     # 不去掉
                     result_image.show()
 
+
+
+
     elif mode == "dir_predict":
         import os
         from tqdm import tqdm
+
+        # 实例化
+        pil_img = pil_img()
 
         img_names = os.listdir(dir_origin_path)
         for img_name in tqdm(img_names):
@@ -615,8 +570,19 @@ if __name__ == "__main__":
                     # 粘贴r_image到result_image上对应的位置
                     result_image.paste(r_image, (x_start, y_start))
 
-
-                r_image = deeplab.detect_image(image)
+                # 去掉padding 黑边
+                if show_on_resized_image:
+                    # 去掉原画布（padded_img的right bottom补零黑边）
+                    #                          .crop((left, top, right, bottom))
+                    paddedimg_width, paddedimg_height = padded_image.size
+                    if paddedimg_width is not None:
+                        result_image = result_image.crop(
+                            (0, 0, paddedimg_width - padding_right, paddedimg_height - padding_bottom))
+                    # result_image.show()
+                else:
+                    # 不去掉
+                    # result_image.show()
+                    pass
 
                 if not os.path.exists(dir_save_path):
                     os.makedirs(dir_save_path)
@@ -680,21 +646,3 @@ if __name__ == "__main__":
 
     else:
         raise AssertionError("Please specify the correct mode: 'predict', 'video', 'fps' or 'dir_predict'.")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
