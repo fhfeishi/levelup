@@ -1,1 +1,0 @@
-# test data jpg-images
