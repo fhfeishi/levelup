@@ -2,9 +2,12 @@
 *.log
 
 # 忽略所有  /raw_data/ 、 /train_data/、 /test_data/、、
-**/raw_data
+**/raw_data/**/*.jpg
+**/raw_data/**/*.png
+**/raw_data/**/*.json
 
-**/dataset
+**/dataset/**/*.jpg
+**/dataset/**/*.png
 
 # 忽略所有.idea
 .idea/*
