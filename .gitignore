@@ -2,12 +2,9 @@
 *.log
 
 # 忽略所有  /raw_data/ 、 /train_data/、 /test_data/、、
-**/raw_data/**/*.jpg
-**/raw_data/**/*.png
-**/raw_data/**/*.json
+**/raw_data
 
-**/dataset/**/*.jpg
-**/dataset/**/*.png
+**/dataset
 
 # 忽略所有.idea
 .idea/*
@@ -36,3 +33,6 @@ build/*.a
 # 忽略所有 .abc 文件，除了 src/ 目录及其子目录下的 .abc 文件
 *.abc
 !src/**/*.abc
+
+!**/README.md
+
