@@ -6,11 +6,8 @@
 **/raw_data/**/*.png
 **/raw_data/**/*.json
 
-**/train_data/**/*.jpg
-**/train_data/**/*.png
-
-**/test_data/**/*.jpg
-**/test_data/**/*.png
+**/dataset/**/*.jpg
+**/dataset/**/*.png
 
 # 忽略所有.idea
 .idea/*
