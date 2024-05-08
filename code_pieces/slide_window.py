@@ -214,8 +214,12 @@ class pil_img:
                         # # #crop一块一块往画布上写入，后写入的会覆盖之前的 
                         # canvas.show()
             
-            # ## 显示全部的crop-rectangle
-            draw_img.show()
+            if draw_cropRectangle:
+                # ## 显示全部的crop-rectangle
+                draw_img.show()
+
+            # # ## 显示全部的crop-rectangle
+            # draw_img.show()
 
             # # # # 有覆盖的框, crop依次写入之后
             # canvas.show()
