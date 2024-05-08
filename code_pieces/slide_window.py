@@ -287,5 +287,5 @@ if __name__ == '__main__':
     img_path = r"D:\chyCodespace\repo\origin\CV_PROJECTION\U2NET_SS\raw_data\rgbpngs\train\image(17).png"
     pil_img = pil_img()
     image = Image.open(img_path)
-    pil_img.paddedImageCrop_new(image, crop_size=(640,640), overlap=(0, 0), draw_cropRectangle=True)
+    pil_img.paddedImageCrop_base(image, crop_size=(640,640), overlap=(0, 0), draw_cropRectangle=True)
     # img_blocks = pil_img.paddedImageCrop(image, crop_size=(640,640), overlap=(200, 200))
