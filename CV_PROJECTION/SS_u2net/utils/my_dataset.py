@@ -26,16 +26,28 @@ from my_transforms import preprocess_input, cvtColor
     
 """
 
+"""
+/proj/
+    +---/dataset/
+            +----/train/
+            +----/test/
+    +---/utils/
+            +----my_dataset_b.py
+    +---my_dataset_a.py   path = "../dataset" True
+"""
+
+
+
 
 class MyDataset(data.Dataset):
     def __init__(self, root: str, train: bool = True, transforms=None, num_classes=3):
         assert os.path.exists(root), f"path '{root}' does not exist."
         if train:
-            self.image_root = os.path.join(root, "DUTS-TR", "DUTS-TR-Image")
-            self.mask_root = os.path.join(root, "DUTS-TR", "DUTS-TR-Mask")
+            self.image_root = os.path.join(root, "dataset/train_data", "jpgs")
+            self.mask_root = os.path.join(root, "dataset/train_data", "pngs")
         else:
-            self.image_root = os.path.join(root, "DUTS-TE", "DUTS-TE-Image")
-            self.mask_root = os.path.join(root, "DUTS-TE", "DUTS-TE-Mask")
+            self.image_root = os.path.join(root, "dataset/test_data", "jpgs")
+            self.mask_root = os.path.join(root, "dataset/test_data", "pngs")
         assert os.path.exists(self.image_root), f"path '{self.image_root}' does not exist."
         assert os.path.exists(self.mask_root), f"path '{self.mask_root}' does not exist."
 
@@ -81,9 +93,9 @@ class MyDataset(data.Dataset):
                 jpg_crop = image.crop((x, y, x+window_w, y+window_h))
                 png_crop = target.crop((x, y, x+window_w, y+window_h))
 
-                png_crop = np.array(png_crop)
+                png_crop_array = np.array(png_crop)
 
-                non_background_pixels = np.sum(png_crop != 0)
+                non_background_pixels = np.sum(png_crop_array != 0)
                 if non_background_pixels > pixel_num_threshold_min:
                     break
 
@@ -96,6 +108,7 @@ class MyDataset(data.Dataset):
         png_crop[png_crop >= self.num_classes] = self.num_classes   # may no use
 
         # tensor-transforms
+        # sth
 
         #   to  one_hot
         seg_labels = np.eye(self.num_classes+1)[png_crop.reshape([-1])]
@@ -229,6 +242,8 @@ class MyDataset(data.Dataset):
 
 
 if __name__ == '__main__':
+    path = "../dataset"    # True
+    print(os.path.exists(path))
 
     train_dataset = MyDataset("../", train=True)
     print(len(train_dataset))
