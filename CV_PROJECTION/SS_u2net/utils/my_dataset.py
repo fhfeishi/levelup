@@ -8,13 +8,10 @@ import torch.utils.data as data
 from my_transforms import preprocess_input, cvtColor
 
 """
-/projection/
-    +----/DUTS-TR/
-            +-----/DUTS-TR-Image/
-            +-----/DUTS-TR-Mask/
-    +----/DUTS-TE/
-            +-----/DUTS-TE-Image/
-            +-----/DUTS-TE-Mask/
+/proj/
+    +---/dataset/
+            +----/train/
+            +----/test/
     +----/utils/ 
             +-----data_dataset.py  class: my_dataset
             +-----data_preprocess.py  data-preprocess,
@@ -23,20 +20,8 @@ from my_transforms import preprocess_input, cvtColor
             +-----train_and_eval.py     criterion      evaluate     fit_one_epoch()
             +-----distributed_utils.py   # windows may no use
     +----train.py
-    
-"""
 
 """
-/proj/
-    +---/dataset/
-            +----/train/
-            +----/test/
-    +---/utils/
-            +----my_dataset_b.py
-    +---my_dataset_a.py   path = "../dataset" True
-"""
-
-
 
 
 class MyDataset(data.Dataset):
@@ -119,6 +104,25 @@ class MyDataset(data.Dataset):
 
     def __len__(self):
         return len(self.images_path)
+
+    def pillow_randomCrop(self, image, mask, window_size=(640,640), min_targetPixelNum_th=4000):
+        w, h = image.size 
+        ww, wh = window_size
+        if w > ww and h > wh:
+            while True:
+                x = random.randint(0, w-ww)
+                y = random.randint(0, h-wh)
+
+                # cv2-image: h, w, c
+                jpg_crop = image.crop((x, y, x+ww, y+wh))
+                png_crop = mask.crop((x, y, x+ww, y+wh))
+
+                png_crop_array = np.array(png_crop)
+
+                non_background_pixels = np.sum(png_crop_array != 0)
+                if non_background_pixels > min_targetPixelNum_th:
+                    break
+
 
     def my_img_augment(self, image, label, input_shape, jitter=.3, hue=.1, sat=0.7, val=0.3, random=True):
         image = cvtColor(image)
@@ -220,7 +224,6 @@ class MyDataset(data.Dataset):
         image_data = cv2.cvtColor(image_data, cv2.COLOR_HSV2RGB)
 
         return image_data, label
-
     def rand(self, a=0, b=1):
         return np.random.rand() * (b - a) + a
 
