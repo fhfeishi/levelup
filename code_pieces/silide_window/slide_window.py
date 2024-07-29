@@ -1,4 +1,4 @@
-# 滑动窗口  允许重叠
+# 滑动窗口裁剪图片  允许重叠
 from PIL import Image, ImageFont, ImageDraw, ImageOps
 import random 
 
