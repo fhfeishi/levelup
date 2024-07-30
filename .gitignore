@@ -12,6 +12,9 @@
 **/test_data/**/*.jpg
 **/test_data/**/*.png
 
+# 忽略所有的 __pycache__
+**/__pycache__/*
+
 # 忽略所有.idea
 .idea/*
 

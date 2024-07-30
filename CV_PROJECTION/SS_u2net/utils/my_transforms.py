@@ -15,7 +15,7 @@ def cvtColor(image):
         return image
     
 # normalization
-def normalization(image):
+def preprocess_input(image):
     image /= 255.0
     return image
 
