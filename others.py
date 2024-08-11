@@ -5,6 +5,7 @@
 
 # # eval()会执行任何输入的代码，有点不安全倒是
 
+import numpy as np 
 
 # import json
 

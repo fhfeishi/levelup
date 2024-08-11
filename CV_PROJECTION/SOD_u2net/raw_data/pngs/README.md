@@ -1,0 +1,1 @@
+raw png masks   binary-image for sod task
