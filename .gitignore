@@ -1,6 +1,10 @@
 # 忽略所有 .log 文件
 *.log
 
+# 忽略所有vscode配置文件
+/.vscode
+/others.py
+
 # 忽略所有  /raw_data/ 、 /train_data/、 /test_data/、、
 **/raw_data/**/*.jpg
 **/raw_data/**/*.png
