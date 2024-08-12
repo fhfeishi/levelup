@@ -25,3 +25,5 @@
 # img_path_b = r"D:\Ddesktop\ppt\work\luoshuan0516\trainval\images\trainval\MAX_2630.jpg"
 # if Image.open(img_path_b):
 #     print('b')
+
+

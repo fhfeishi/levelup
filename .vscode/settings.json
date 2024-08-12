@@ -1,7 +1,0 @@
-{
-    "emmet.triggerExpansionOnTab": true,
-
-    "editor.fontSize": 18,
-    "window.zoomLevel": 1.2,
-    "cmake.configureOnOpen": true
-}
