@@ -3,7 +3,11 @@
 
 # 忽略所有vscode配置文件
 /.vscode
+
+# 忽略一些随便写写的code
 /others.py
+/zzzz_code
+
 
 # 忽略所有  /raw_data/ 、 /train_data/、 /test_data/、、
 **/raw_data/**/*.jpg
