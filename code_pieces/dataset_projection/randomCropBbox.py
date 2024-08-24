@@ -118,9 +118,5 @@ def randomCropBboxB(pillowImage, bboxes, crop_size=(640,640), cropBbox_ratio=0.7
                 return cropped_image, new_bboxes
         
     return pillowImage, bboxes
-        
     
-
-
-
 
