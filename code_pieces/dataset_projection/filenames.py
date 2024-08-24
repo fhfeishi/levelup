@@ -3,13 +3,13 @@
 import os
 from tqdm import tqdm
 
-# 去掉空格\中文
+# 去掉空格\中文 
 # filename.replace(' ', '')
 def del_kongge(dir_path):
     # 获取目录中的所有文件和文件夹名
     names = os.listdir(dir_path)
     # 使用 tqdm 来显示进度条
-    for name in tqdm(names):
+    for name in tqdm(names): 
         # 新文件名去除空格
         new_name = name.replace(' ', '')
         # 如果新旧文件名不同，则重命名
@@ -30,7 +30,7 @@ def cn2eng(dir_path, cn='巡检图片', eng='image'):
             new_path = os.path.join(dir_path, new_name)
             os.rename(old_path, new_path)
             print(f'rename {old_path} to {new_path}')
-
+ 
 
 def JPG2jpg(dir_path):
     names = [name for name in os.listdir(dir_path) if name.endswith('.JPG')]
