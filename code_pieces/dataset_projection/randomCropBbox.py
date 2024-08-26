@@ -146,7 +146,7 @@ def myCrop(pillowImage, bboxes, crop_size=(640,640), ratio=0.7, maxAttempts=100)
         x1 = random.randint(0, (w-crop_size[0]+1))
         y1 = random.randint(0, (h-crop_size[1]+1))
         x2 = x1 + crop_size[0]
-        y2 = y1 = crop_size[1]
+        y2 = y1 + crop_size[1]
         
         interAreaDicts = {}
         for bbox in bboxes:
