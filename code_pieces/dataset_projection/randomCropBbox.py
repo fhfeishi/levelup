@@ -11,35 +11,36 @@ def randomCropBbox_raw(opencvImage, bboxes, crop_size=(640,640), cropBbox_ratio=
         x2 = x1 + cw
         y2 = y1 + ch
         
-        new_bboxes = []
+        interAreaRatios = {}
         for bbox in bboxes:
-            cropBbox_x1 = max(x1, bbox[0])
-            cropBbox_y1 = max(y1, bbox[1])
-            cropBbox_x2 = min(x2, bbox[2])
-            cropBbox_y2 = min(y2, bbox[3])
-            cropBbox_area = max(0,(cropBbox_x2-cropBbox_x1)) * max(0,(cropBbox_y2-cropBbox_y1))
+            bbox_x1 = max(x1, bbox[0])
+            bbox_y1 = max(y1, bbox[1])
+            bbox_x2 = min(x2, bbox[2])
+            bbox_y2 = min(y2, bbox[3])
+            
+            cropBbox_area = max(0, bbox_x2-bbox_x1) * max(0, bbox_y2-bbox_y1)
             bbox_area = (bbox[2]-bbox[0]) * (bbox[3]-bbox[1])
-            # bbox_area  > crop_area
-            if bbox_area > cw*ch:
-                # large obj. 
-                if cropBbox_area >= bbox_area*cropBbox_ratio:
-                    new_bboxes.append([cropBbox_x1-x1, cropBbox_y1-y1, cropBbox_x2-x2, cropBbox_y2-y2])
-                    # continue
-                else:
-                    # obj is too large
-                    continue
-            else:
-                # bbox_area  =< crop_area
-                if cropBbox_area >= bbox_area*cropBbox_ratio:
-                    new_bboxes.append([cropBbox_x1-x1, cropBbox_y1-y1, cropBbox_x2-x1, cropBbox_y2-y1])
-                else:
-                    # crop_bbox too small
-                    continue
-        
-        if len(new_bboxes)>0:
-            croppedImage = opencvImage[y1:y2, x1:x2]
-            return croppedImage, new_bboxes
-    
+            interAreaRatio = cropBbox_area / bbox_area
+            interAreaRatios[tuple(bbox)] = interAreaRatio
+            
+            interAreaRatios = dict(sorted(interAreaRatios.items(), key=lambda item: item[1], reverse=True))
+
+            if any(ratio >= cropBbox_ratio for ratio in interAreaRatios.values()):
+                if all(ratio >= cropBbox_ratio or ratio == 0 for ratio in interAreaRatios.values()):
+                    cropped_image = opencvImage[y1:y2, x1:x2]
+
+                    new_bboxes = []
+                    for bbox, ratio in interAreaRatios.items():
+                        if ratio > cropBbox_ratio:
+                            updated_bbox = [
+                                        max(0, bbox[0] - x1),
+                                        max(0, bbox[1] - y1),
+                                        min(cw, bbox[2] - x1),
+                                        min(ch, bbox[3] - y1)
+                                    ]
+                            new_bboxes.append(updated_bbox)
+                return cropped_image, new_bboxes
+
     return opencvImage, bboxes
             
 
@@ -53,23 +54,35 @@ def randomCropBboxA(opencvImage, bboxes, crop_size=(640,640), cropBbox_ratio=0.7
         y1 = random.randint(0, (h-ch+1))
         x2 = x1 + cw
         y2 = y1 + ch
-        crop_bbox = [x1, y1, x2, y2]
         
-        new_bboxes = []
+        interAreaRatios = {}
         for bbox in bboxes:
-            bbox_x1 = max(crop_bbox[0], bbox[0])
-            bbox_y1 = max(crop_bbox[1], bbox[1])
-            bbox_x2 = min(crop_bbox[2], bbox[2])
-            bbox_y2 = min(crop_bbox[3], bbox[3])
+            bbox_x1 = max(x1, bbox[0])
+            bbox_y1 = max(y1, bbox[1])
+            bbox_x2 = min(x2, bbox[2])
+            bbox_y2 = min(y2, bbox[3])
             
             cropBbox_area = max(0, bbox_x2-bbox_x1) * max(0, bbox_y2-bbox_y1)
             bbox_area = (bbox[2]-bbox[0]) * (bbox[3]-bbox[1])
+            interAreaRatio = cropBbox_area / bbox_area
+            interAreaRatios[tuple(bbox)] = interAreaRatio
             
-            if cropBbox_area >= bbox_area*cropBbox_ratio:
-                    new_bboxes.append([bbox_x1-x1, bbox_y1-y1, bbox_x2-x1, bbox_y2-y1])
-            
-            if len(new_bboxes) > 0:
-                cropped_image = opencvImage[y1:y2, x1:x2]
+            interAreaRatios = dict(sorted(interAreaRatios.items(), key=lambda item: item[1], reverse=True))
+
+            if any(ratio >= cropBbox_ratio for ratio in interAreaRatios.values()):
+                if all(ratio >= cropBbox_ratio or ratio == 0 for ratio in interAreaRatios.values()):
+                    cropped_image = opencvImage[y1:y2, x1:x2]
+
+                    new_bboxes = []
+                    for bbox, ratio in interAreaRatios.items():
+                        if ratio > cropBbox_ratio:
+                            updated_bbox = [
+                                        max(0, bbox[0] - x1),
+                                        max(0, bbox[1] - y1),
+                                        min(cw, bbox[2] - x1),
+                                        min(ch, bbox[3] - y1)
+                                    ]
+                            new_bboxes.append(updated_bbox)
                 return cropped_image, new_bboxes
         
                     
@@ -83,22 +96,34 @@ def randomCropBboxB(pillowImage, bboxes, crop_size=(640,640), cropBbox_ratio=0.7
         y1 = random.randint(0, (h-ch+1))
         x2 = x1 + cw
         y2 = y1 + ch
-        crop_bbox = [x1, y1, x2, y2]
-        new_bboxes = []
+        interAreaRatios = {}
         for bbox in bboxes:
-            bbox_x1 = max(crop_bbox[0], bbox[0])
-            bbox_y1 = max(crop_bbox[1], bbox[1])
-            bbox_x2 = min(crop_bbox[2], bbox[2])
-            bbox_y2 = min(crop_bbox[3], bbox[3])
+            bbox_x1 = max(x1, bbox[0])
+            bbox_y1 = max(y1, bbox[1])
+            bbox_x2 = min(x2, bbox[2])
+            bbox_y2 = min(y2, bbox[3])
             
             cropBbox_area = max(0, bbox_x2-bbox_x1) * max(0, bbox_y2-bbox_y1)
             bbox_area = (bbox[2]-bbox[0]) * (bbox[3]-bbox[1])
+            interAreaRatio = cropBbox_area / bbox_area
+            interAreaRatios[tuple(bbox)] = interAreaRatio
             
-            if cropBbox_area >= bbox_area*cropBbox_ratio:
-                new_bboxes.append([bbox_x1-x1, bbox_y1-y1, bbox_x2-x1, bbox_y2-y1])
+            interAreaRatios = dict(sorted(interAreaRatios.items(), key=lambda item: item[1], reverse=True))
 
-            if len(new_bboxes) > 0:
-                cropped_image = pillowImage.crop((x1,y1,x2,y2)) # Image.crop((left,top,right,bottom)) 
+            if any(ratio >= cropBbox_ratio for ratio in interAreaRatios.values()):
+                if all(ratio >= cropBbox_ratio or ratio == 0 for ratio in interAreaRatios.values()):
+                    cropped_image = pillowImage.crop((x1,y1,x2,y2)) # Image.crop((left,top,right,bottom)) 
+
+                    new_bboxes = []
+                    for bbox, ratio in interAreaRatios.items():
+                        if ratio > cropBbox_ratio:
+                            updated_bbox = [
+                                        max(0, bbox[0] - x1),
+                                        max(0, bbox[1] - y1),
+                                        min(cw, bbox[2] - x1),
+                                        min(ch, bbox[3] - y1)
+                                    ]
+                            new_bboxes.append(updated_bbox)
                 return cropped_image, new_bboxes
         
     return pillowImage, bboxes
