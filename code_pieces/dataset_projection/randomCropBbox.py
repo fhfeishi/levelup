@@ -1,5 +1,10 @@
 import random
 
+# pillowImage   w, h = pillowImage.size, image_crop = pillowImage.crop((x1,y1,x2,y2))
+# opencvImage  h,w,c = opencvImage.shape, image_crop = opencvImage[y1:y2, x1:x2]
+
+
+
 def randomCropBbox_raw(opencvImage, bboxes, crop_size=(640,640), cropBbox_ratio=0.7, max_attempts=100):
     h,w,_ = opencvImage.shape
     cw,ch = crop_size
@@ -39,7 +44,7 @@ def randomCropBbox_raw(opencvImage, bboxes, crop_size=(640,640), cropBbox_ratio=
                                         min(ch, bbox[3] - y1)
                                     ]
                             new_bboxes.append(updated_bbox)
-                return cropped_image, new_bboxes
+                    return cropped_image, new_bboxes
 
     return opencvImage, bboxes
             
@@ -83,7 +88,7 @@ def randomCropBboxA(opencvImage, bboxes, crop_size=(640,640), cropBbox_ratio=0.7
                                         min(ch, bbox[3] - y1)
                                     ]
                             new_bboxes.append(updated_bbox)
-                return cropped_image, new_bboxes
+                    return cropped_image, new_bboxes
         
                     
 def randomCropBboxB(pillowImage, bboxes, crop_size=(640,640), cropBbox_ratio=0.7, max_attempts=100):
@@ -124,7 +129,7 @@ def randomCropBboxB(pillowImage, bboxes, crop_size=(640,640), cropBbox_ratio=0.7
                                         min(ch, bbox[3] - y1)
                                     ]
                             new_bboxes.append(updated_bbox)
-                return cropped_image, new_bboxes
+                    return cropped_image, new_bboxes
         
     return pillowImage, bboxes
     
@@ -142,6 +147,8 @@ imageCrop = pillowImage.crop((x1,y1,x2,y2))
 def myCrop(pillowImage, bboxes, crop_size=(640,640), ratio=0.7, maxAttempts=100):
     w,h = pillowImage.size
     
+    assert w>=crop_size[0] and h>=crop_size[1], "crop_size is too big"
+    
     for _ in range(maxAttempts):
         x1 = random.randint(0, (w-crop_size[0]+1))
         y1 = random.randint(0, (h-crop_size[1]+1))
@@ -152,8 +159,8 @@ def myCrop(pillowImage, bboxes, crop_size=(640,640), ratio=0.7, maxAttempts=100)
         for bbox in bboxes:
             interBbox_x1 = max(x1, bbox[0])
             interBbox_y1 = max(x1, bbox[1])
-            interBbox_x2 = max(x1, bbox[2])
-            interBbox_y2 = max(x1, bbox[3])
+            interBbox_x2 = min(x1, bbox[2])
+            interBbox_y2 = min(x1, bbox[3])
             
             interArea = (interBbox_x2-interBbox_x1) * (interBbox_y2-interBbox_y1)
             bboxArea = (bbox[3]-bbox[1]) * (bbox[2]-bbox[1])
