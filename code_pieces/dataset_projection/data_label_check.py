@@ -1,8 +1,8 @@
 import os
 import shutil
 
-data_folder = r'F:\bianse\normaldata\conservator_normal'
-label_folder = r'F:\bianse\dataset\xml'
+data_folder = r'F:\bianse\1280_960_dataset\conservator'
+label_folder = r'F:\bianse\1280_960_dataset\xml'
 
 data_nameset = {name.split(".")[0] for name in os.listdir(data_folder)}
 label_nameset = {name.split(".")[0] for name in os.listdir(label_folder)}
@@ -23,6 +23,6 @@ def copyimg(data_folder, label_nameset, new_dir):
             shutil.copy2(data_path, new_path)
             print(f"文件 {name} 已复制到 {new_dir}")
             
-new_dir = r"F:\bianse\dataset\jpg"
-copyimg(data_folder, label_nameset, new_dir)    
+# new_dir = r"F:\bianse\1280_960_dataset\jpg"
+# copyimg(data_folder, label_nameset, new_dir)    
 
