@@ -17,7 +17,7 @@ from matplotlib import pyplot as plt
 import numpy as np
 
 '''
-    0,0 ------> x (width)
+    0,0 ------> x (width) col-idx
      |
      |  (Left,Top)
      |      *_________
@@ -25,7 +25,7 @@ import numpy as np
             |         |
      y      |_________|
   (height)            *
-                (Right,Bottom)
+   row-idx        (Right,Bottom)
 '''
 
 def log_average_miss_rate(precision, fp_cumsum, num_images):

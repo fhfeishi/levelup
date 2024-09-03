@@ -96,7 +96,7 @@ class YoloDataset(Dataset):
             scale = min(w/iw, h/ih)
             nw = int(iw*scale)
             nh = int(ih*scale)
-            dx = (w-nw)//2  # // 取商  %取余
+            dx = (w-nw)//2  # // 取商  %取余 / 除法
             dy = (h-nw)//2
             
         # 四周补灰条
@@ -243,7 +243,7 @@ class YoloDataset(Dataset):
             new_boxes = np.concatenate([box_1, box_2], axis=0)
         return new_image, new_boxes
         
-    def randomCrop_bbox(self, pillowImage, box, crop_size=(640, 640), area_thr=0.5, max_attempts=2000):
+    def randomCropBbox(self, pillowImage, box, crop_size=(640, 640), area_thr=0.5, max_attempts=2000):
         # only for train------------------
         # box: [[x1, y1, x2, y2, cla-id], ...]
         w, h = pillowImage.size
