@@ -182,7 +182,7 @@ def convert_txt_to_voc(txt_folder, img_folder, output_folder, class_names):
 
             # 读取图像以获取其尺寸
             img = Image.open(img_path)
-            width, height = img.size
+            image_width, image_height = img.size
 
             objects = []
             with open(txt_path, 'r') as file:
@@ -197,13 +197,15 @@ def convert_txt_to_voc(txt_folder, img_folder, output_folder, class_names):
                     width = float(parts[3])
                     height = float(parts[4])
                     
-                    xmin = int((x_center - width / 2) * width)
-                    ymin = int((y_center - height / 2) * height)
-                    xmax = int((x_center + width / 2) * width)
-                    ymax = int((y_center + height / 2) * height)
+                    xmin = int((x_center - width / 2) * image_width)
+                    ymin = int((y_center - height / 2) * image_height)
+                    xmax = int((x_center + width / 2) * image_width)
+                    ymax = int((y_center + height / 2) * image_height)
                     
+                    objects.append({'class_id': class_id, 'xmin': xmin, 'ymin': ymin, 'xmax': xmax, 'ymax': ymax})
+
                     
-                    create_voc_xml(txt_file.replace('.txt', '.jpg'), width, height, objects, class_names, output_folder)
+                    create_voc_xml(txt_file.replace('.txt', '.jpg'), image_width, image_height, objects, class_names, output_folder)
 
 
 def generate_unique_short_ids(num_ids, length=4):
