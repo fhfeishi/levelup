@@ -46,7 +46,7 @@ def JPG2jpg(dir_path):
 
 if __name__  == '__main__':
     # dir_path = r'F:\bianse\normaldata\conservator_normal'
-    dir_path = r'F:\bianse\normaldata\xml_normal'
+    dir_path = r'F:\bianse\testdata\0830TestData'
     del_kongge(dir_path)
     # cn2eng(dir_path, cn='巡检图片', eng='image')
     JPG2jpg(dir_path)
