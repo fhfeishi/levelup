@@ -3,7 +3,7 @@ from PIL import Image
 import numpy as np
 
 from tqdm import tqdm 
-def crop_masks(jpg_dir, png_dir, save_dir, expand=640, squareCrop=True):
+def crop_masks(jpg_dir, png_dir, save_dir, expand=320, squareCrop=True):
     # 确保保存目录存在
     if not os.path.exists(save_dir):
         os.makedirs(save_dir)
@@ -81,10 +81,14 @@ def crop_masks(jpg_dir, png_dir, save_dir, expand=640, squareCrop=True):
             left_rest_n = ymin
             bot_rest_n = h - ymax
             right_rest_n = w - xmax 
-            expand_xn_ = ((((xmax-xmin)//expand)+1) * expand) - (xmax-xmin)
-            expand_yn_ = ((((ymax-ymin)//expand)+1) * expand) - (ymax-ymin)
+            # # +1  --> expand (0, expand)
+            # expand_xn_ = ((((xmax-xmin)//expand)+1) * expand) - (xmax-xmin)
+            # expand_yn_ = ((((ymax-ymin)//expand)+1) * expand) - (ymax-ymin)
+            # assert expand_xn_ == expand_yn_, f"square not work, why?"
+            # # +2  --> expand (expand, 2*expand)  ---better
+            expand_xn_ = ((((xmax-xmin)//expand)+2) * expand) - (xmax-xmin)
+            expand_yn_ = ((((ymax-ymin)//expand)+2) * expand) - (ymax-ymin)
             assert expand_xn_ == expand_yn_, f"square not work, why?"
-            
             if expand_xn_ > (left_rest_n+right_rest_n):
                 print(f"{mask_file} 没有成功crop, obj is too big, image no enough margin --expand --x")
                 continue
