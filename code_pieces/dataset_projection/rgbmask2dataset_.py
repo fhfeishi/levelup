@@ -121,8 +121,8 @@ if __name__ == '__main__':
     # get <dataset> color label map
     png_folder = r'E:\datasets\triplel\before' # jpg、png folder_rawdata_
     # color_label_map = get_color_label_map(png_folder)
-    color_label_map = {"(0, 0, 0)": 0, "(0, 255, 0)": 1, "(255, 255, 255)": 2} # -> set_palette not
-    # color_label_map = {(0, 0, 0): 0, (0, 255, 0): 1, (255, 255, 255): 2}   # -> set_palette ok
+    color_label_map = {"(0, 0, 0)": 0, "(0, 255, 0)": 1, "(255, 255, 255)": 2} # -> key is str(color)
+    # color_label_map = {(0, 0, 0): 0, (0, 255, 0): 1, (255, 255, 255): 2}   # -> key is tuple(color)
     # set palette   -->  get target_dataset
     save_dir = r"E:\datasets\triplel\SegmentationClass"
     get_png_from_palette(png_folder, color_label_map, save_dir)
