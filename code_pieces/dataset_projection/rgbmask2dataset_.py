@@ -100,13 +100,17 @@ def get_png_from_palette(png_folder, rgb_to_label_value, save_dir):
 
             for i in range(png_array.shape[0]):
                 for j in range(png_array.shape[1]):
-                    rgb = tuple(png_array[i, j, :3])  # 前3个通道 rgb， 过滤掉了alpha通道
-                    # print(rgb)
+                    rgb = tuple(png_array[i, j, :3])  
+                    # # key: str(color)
                     indexed_png[i, j] = rgb_to_label_value.get(rgb, 0)  # 0是设置的默认值，如果没找到这个rgb
+                    # # key: tuple(color) 
+                    indexed_png[i, j] = rgb_to_label_value.get(str(rgb), 0)  # 0是设置的默认值，如果没找到这个rgb
 
             # print(indexed_png)
             new_png = Image.fromarray(indexed_png, mode='P')
             new_png.putpalette(palette)  
+            
+            # new_png.show()
 
             save_path = os.path.join(save_dir, os.path.basename(png_path))
             new_png.save(save_path)
@@ -115,12 +119,12 @@ def get_png_from_palette(png_folder, rgb_to_label_value, save_dir):
 
 if __name__ == '__main__':
     # get <dataset> color label map
-    png_folder = r'D:\ddesktop\xianpian\codespace\deeplabv3p_triple\datasets\before' # jpg、png folder_rawdata_
+    png_folder = r'E:\datasets\triplel\before' # jpg、png folder_rawdata_
     # color_label_map = get_color_label_map(png_folder)
-    color_label_map = {"(0, 0, 0)": 0, "(0, 255, 0)": 1, "(255, 255, 255)": 2} # -> right
-    # color_label_map = {(0, 0, 0): 0, (0, 255, 0): 1, (255, 255, 255): 2}   # -> wrong
+    color_label_map = {"(0, 0, 0)": 0, "(0, 255, 0)": 1, "(255, 255, 255)": 2} # -> set_palette not
+    # color_label_map = {(0, 0, 0): 0, (0, 255, 0): 1, (255, 255, 255): 2}   # -> set_palette ok
     # set palette   -->  get target_dataset
-    save_dir = r"D:\ddesktop\xianpian\codespace\deeplabv3p_triple\datasets\SegmentationClass"
+    save_dir = r"E:\datasets\triplel\SegmentationClass"
     get_png_from_palette(png_folder, color_label_map, save_dir)
 
 
