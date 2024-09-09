@@ -4,6 +4,9 @@
 # 忽略所有vscode配置文件
 /.vscode
 
+# 忽略所有.ipynb_checkpoints
+**/.ipynb_checkpoints
+
 # 忽略一些随便写写的code
 /others.py
 /zzzz_code
