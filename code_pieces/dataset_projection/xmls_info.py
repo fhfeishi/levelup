@@ -2,7 +2,7 @@ import os
 import xml.etree.ElementTree as ET
 from collections import defaultdict
 
-xml_dir = r'F:\bianse\1280_960_dataset\2xml'
+
 
 def analysis_xml(xml_dir, output_file=None):
     # 字典存储各个类别的计数
@@ -70,6 +70,11 @@ def analysis_xml(xml_dir, output_file=None):
             file.write("\n标注框尺寸及其数量:\n")
             for size, count in bbox_size_count.items():
                 file.write(f'{size}: {count}\n')
+
+
+
+xml_dir = r'F:\bianse\testxml'
+
 # 调用函数
-analysis_xml(xml_dir, 'F:/bianse/1280_960_dataset/datasetinfo2.txt')
+analysis_xml(xml_dir, 'F:bianse/test_datasetinfo.txt')
 

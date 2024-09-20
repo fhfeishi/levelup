@@ -47,8 +47,8 @@ def crop_masks(jpg_dir, png_dir, save_dir, expand=320, squareCrop=True):
             w, h = image.size
 
             # square crop  ->  square_crop_x1, square_c1rop_y1, square_crop_x2, square_crop_y2
-            top_rest = xmin
-            left_rest = ymin
+            top_rest = ymin
+            left_rest = xmin
             bot_rest = h - ymax
             right_rest = w - xmax 
             if squareCrop:
@@ -77,8 +77,8 @@ def crop_masks(jpg_dir, png_dir, save_dir, expand=320, squareCrop=True):
                         ymax = ymax_s
             
             # expand128 ->   final_crop_x1, final_c1rop_y1, final_crop_x2, final_crop_y2  
-            top_rest_n = xmin
-            left_rest_n = ymin
+            top_rest_n = ymin
+            left_rest_n = xmin
             bot_rest_n = h - ymax
             right_rest_n = w - xmax 
             # # +1  --> expand (0, expand)
