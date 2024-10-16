@@ -50,11 +50,13 @@ def analysis_xml(xml_dir, output_file=None):
     
     print("\n分辨率及其图像数量:")
     for res, count in resolution_count.items():
-        print(f'{res}: {count}')
+        # print(f'{res}: {count}')
+        continue
     
     print("\n标注框尺寸及其数量:")
     for size, count in bbox_size_count.items():
-        print(f'{size}: {count}')
+        # print(f'{size}: {count}')
+        continue
 
     if (output_file is not None) and (os.path.isfile(output_file)):
         # 打开文件并写入数据
@@ -73,8 +75,9 @@ def analysis_xml(xml_dir, output_file=None):
 
 
 
-xml_dir = r'F:\bianse\testxml'
+xml_dir = r"D:\ddesktop\monitoring\framesdata\dataset\xmls"
 
+txt_path = os.path.join(os.path.dirname(xml_dir), "datasetinfo.txt")
 # 调用函数
-analysis_xml(xml_dir, 'F:bianse/test_datasetinfo.txt')
+analysis_xml(xml_dir, txt_path)
 

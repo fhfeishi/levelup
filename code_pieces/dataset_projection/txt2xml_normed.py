@@ -2,7 +2,7 @@ import os
 from tqdm import tqdm
 from PIL import Image
 import shutil
-# 1
+# # 1
 # # 去掉空格\中文 
 # # filename.replace(' ', '')
 # def del_kongge(dir_path):
@@ -21,11 +21,11 @@ import shutil
 #             os.rename(old_path, new_path)
 #             print(f'rename {old_path} to {new_path}')
 
-# dir_path = r"F:\bianse\switch\labels\train"
+# dir_path = r"D:\ddesktop\monitoring\datadata\helmet\archive13\images_"
 # del_kongge(dir_path)
 
 # # 2
-# # JPG2jpg
+# # JPG2jpg   # 22141
 # def get_jpg(jpg_dir, save_dir):
 #     if not os.path.exists(save_dir):
 #         os.makedirs(save_dir, exist_ok=True)
@@ -139,102 +139,102 @@ from PIL import Image
 import uuid
 import random
 
-def create_voc_xml(filename, width, height, objects, class_names, output_folder):
-    annotation = ET.Element('annotation')
-    ET.SubElement(annotation, 'folder').text = output_folder
-    ET.SubElement(annotation, 'filename').text = filename
+# def create_voc_xml(filename, width, height, objects, class_names, output_folder):
+#     annotation = ET.Element('annotation')
+#     ET.SubElement(annotation, 'folder').text = output_folder
+#     ET.SubElement(annotation, 'filename').text = filename
 
-    size = ET.SubElement(annotation, 'size')
-    ET.SubElement(size, 'width').text = str(width)
-    ET.SubElement(size, 'height').text = str(height)
-    ET.SubElement(size, 'depth').text = '3'  # 假设图像深度为3 (RGB)
+#     size = ET.SubElement(annotation, 'size')
+#     ET.SubElement(size, 'width').text = str(width)
+#     ET.SubElement(size, 'height').text = str(height)
+#     ET.SubElement(size, 'depth').text = '3'  # 假设图像深度为3 (RGB)
 
-    for obj in objects:
-        obj_elem = ET.SubElement(annotation, 'object')
-        ET.SubElement(obj_elem, 'name').text = class_names[obj['class_id']]
-        ET.SubElement(obj_elem, 'pose').text = 'Unspecified'
-        ET.SubElement(obj_elem, 'truncated').text = '0'
-        ET.SubElement(obj_elem, 'difficult').text = '0'
-        bndbox = ET.SubElement(obj_elem, 'bndbox')
-        ET.SubElement(bndbox, 'xmin').text = str(obj['xmin'])
-        ET.SubElement(bndbox, 'ymin').text = str(obj['ymin'])
-        ET.SubElement(bndbox, 'xmax').text = str(obj['xmax'])
-        ET.SubElement(bndbox, 'ymax').text = str(obj['ymax'])
+#     for obj in objects:
+#         obj_elem = ET.SubElement(annotation, 'object')
+#         ET.SubElement(obj_elem, 'name').text = class_names[obj['class_id']]
+#         ET.SubElement(obj_elem, 'pose').text = 'Unspecified'
+#         ET.SubElement(obj_elem, 'truncated').text = '0'
+#         ET.SubElement(obj_elem, 'difficult').text = '0'
+#         bndbox = ET.SubElement(obj_elem, 'bndbox')
+#         ET.SubElement(bndbox, 'xmin').text = str(obj['xmin'])
+#         ET.SubElement(bndbox, 'ymin').text = str(obj['ymin'])
+#         ET.SubElement(bndbox, 'xmax').text = str(obj['xmax'])
+#         ET.SubElement(bndbox, 'ymax').text = str(obj['ymax'])
 
-    xml_str = ET.tostring(annotation)
-    xml_pretty = parseString(xml_str).toprettyxml()
+#     xml_str = ET.tostring(annotation)
+#     xml_pretty = parseString(xml_str).toprettyxml()
 
-    xml_filename = os.path.join(output_folder, filename.replace('.jpg', '.xml'))
-    with open(xml_filename, 'w') as f:
-        f.write(xml_pretty)
+#     xml_filename = os.path.join(output_folder, filename.replace('.jpg', '.xml'))
+#     with open(xml_filename, 'w') as f:
+#         f.write(xml_pretty)
 
-def convert_txt_to_voc(txt_folder, img_folder, output_folder, class_names):
-    os.makedirs(output_folder, exist_ok=True)
+# def convert_txt_to_voc(txt_folder, img_folder, output_folder, class_names):
+#     os.makedirs(output_folder, exist_ok=True)
 
-    for txt_file in os.listdir(txt_folder):
-        if txt_file.endswith('.txt'):
-            txt_path = os.path.join(txt_folder, txt_file)
-            img_path = os.path.join(img_folder, txt_file.replace('.txt', '.jpg'))
+#     for txt_file in os.listdir(txt_folder):
+#         if txt_file.endswith('.txt'):
+#             txt_path = os.path.join(txt_folder, txt_file)
+#             img_path = os.path.join(img_folder, txt_file.replace('.txt', '.jpg'))
 
-            if not os.path.exists(img_path):
-                print(f"Image file {img_path} does not exist.")
-                continue
+#             if not os.path.exists(img_path):
+#                 print(f"Image file {img_path} does not exist.")
+#                 continue
 
-            # 读取图像以获取其尺寸
-            img = Image.open(img_path)
-            image_width, image_height = img.size
+#             # 读取图像以获取其尺寸
+#             img = Image.open(img_path)
+#             image_width, image_height = img.size
 
-            objects = []
-            with open(txt_path, 'r') as file:
-                for line in file:
-                    parts = line.strip().split()
-                    if len(parts) < 5:
-                        continue  # Skip incomplete lines
-                    class_id = int(parts[0])  # Class ID remains an integer
-                    # Convert normalized coordinates back to pixel coordinates
-                    x_center = float(parts[1])
-                    y_center = float(parts[2])
-                    width = float(parts[3])
-                    height = float(parts[4])
+#             objects = []
+#             with open(txt_path, 'r') as file:
+#                 for line in file:
+#                     parts = line.strip().split()
+#                     if len(parts) < 5:
+#                         continue  # Skip incomplete lines
+#                     class_id = int(parts[0])  # Class ID remains an integer
+#                     # Convert normalized coordinates back to pixel coordinates
+#                     x_center = float(parts[1])
+#                     y_center = float(parts[2])
+#                     width = float(parts[3])
+#                     height = float(parts[4])
                     
-                    xmin = int((x_center - width / 2) * image_width)
-                    ymin = int((y_center - height / 2) * image_height)
-                    xmax = int((x_center + width / 2) * image_width)
-                    ymax = int((y_center + height / 2) * image_height)
+#                     xmin = int((x_center - width / 2) * image_width)
+#                     ymin = int((y_center - height / 2) * image_height)
+#                     xmax = int((x_center + width / 2) * image_width)
+#                     ymax = int((y_center + height / 2) * image_height)
                     
-                    objects.append({'class_id': class_id, 'xmin': xmin, 'ymin': ymin, 'xmax': xmax, 'ymax': ymax})
+#                     objects.append({'class_id': class_id, 'xmin': xmin, 'ymin': ymin, 'xmax': xmax, 'ymax': ymax})
 
                     
-                    create_voc_xml(txt_file.replace('.txt', '.jpg'), image_width, image_height, objects, class_names, output_folder)
+#                     create_voc_xml(txt_file.replace('.txt', '.jpg'), image_width, image_height, objects, class_names, output_folder)
 
 
-def generate_unique_short_ids(num_ids, length=4):
-    unique_ids = set()
-    while len(unique_ids) < num_ids:
-        # 生成一个 UUID
-        random_uuid = uuid.uuid4().hex  # 获取无破折号的十六进制字符串形式
-        # 从 UUID 中随机抽取四个字符
-        start_index = random.randint(0, len(random_uuid) - length)
-        short_id = random_uuid[start_index:start_index + length]
-        # 添加到集合中以保证唯一性
-        unique_ids.add(short_id)
-    return list(unique_ids)
-# # 类别名称
-class_names = generate_unique_short_ids(2,5)
-# print(class_names) # ['b56c3', '8076e']
+# def generate_unique_short_ids(num_ids, length=4):
+#     unique_ids = set()
+#     while len(unique_ids) < num_ids:
+#         # 生成一个 UUID
+#         random_uuid = uuid.uuid4().hex  # 获取无破折号的十六进制字符串形式
+#         # 从 UUID 中随机抽取四个字符
+#         start_index = random.randint(0, len(random_uuid) - length)
+#         short_id = random_uuid[start_index:start_index + length]
+#         # 添加到集合中以保证唯一性
+#         unique_ids.add(short_id)
+#     return list(unique_ids)
+# # # 类别名称
+# class_names = generate_unique_short_ids(2,5)
+# # print(class_names) # ['b56c3', '8076e']
 
-# 文件夹路径 1
-txt_folder_1 = r'F:\bianse\switch\val_dataset\new_txts'
-img_folder_1 = r'F:\bianse\switch\val_dataset\new_images'
-output_folder_1 = r'F:\bianse\switch\val_dataset\new_xmls'
-if not os.path.exists(output_folder_1):
-    os.makedirs(output_folder_1)
-convert_txt_to_voc(txt_folder_1, img_folder_1, output_folder_1, class_names)
+# # 文件夹路径 1
+# txt_folder_1 = r'F:\bianse\switch\val_dataset\new_txts'
+# img_folder_1 = r'F:\bianse\switch\val_dataset\new_images'
+# output_folder_1 = r'F:\bianse\switch\val_dataset\new_xmls'
+# if not os.path.exists(output_folder_1):
+#     os.makedirs(output_folder_1)
+# convert_txt_to_voc(txt_folder_1, img_folder_1, output_folder_1, class_names)
 
-# 文件夹路径 2
-txt_folder_2 = r'F:\bianse\switch\train_dataset\new_txts'
-img_folder_2 = r'F:\bianse\switch\train_dataset\new_images'
-output_folder_2 = r'F:\bianse\switch\train_dataset\new_xmls'
-if not os.path.exists(output_folder_2):
-    os.makedirs(output_folder_2)
-convert_txt_to_voc(txt_folder_2, img_folder_2, output_folder_2, class_names)
+# # 文件夹路径 2
+# txt_folder_2 = r'F:\bianse\switch\train_dataset\new_txts'
+# img_folder_2 = r'F:\bianse\switch\train_dataset\new_images'
+# output_folder_2 = r'F:\bianse\switch\train_dataset\new_xmls'
+# if not os.path.exists(output_folder_2):
+#     os.makedirs(output_folder_2)
+# convert_txt_to_voc(txt_folder_2, img_folder_2, output_folder_2, class_names)

@@ -1,8 +1,11 @@
 import os
 import shutil
 
-data_folder = r'D:\ddesktop\xianpian\tmpsaveimage'
-label_folder = r'D:\ddesktop\xianpian\datadata\layer3-png'
+# data_folder = r'D:\ddesktop\xianpian\tmpsaveimage'
+# label_folder = r'D:\ddesktop\xianpian\datadata\layer3-png'
+
+data_folder = r'D:\ddesktop\xianlan_measure\bianping_dataset\jpgs'
+label_folder = r'D:\ddesktop\xianlan_measure\bianping_dataset\pngs'
 
 data_nameset = {name.split(".")[0] for name in os.listdir(data_folder)}
 label_nameset = {name.split(".")[0] for name in os.listdir(label_folder)}
@@ -13,9 +16,11 @@ print("data len:", len(data_nameset))  # 2106      # 943:  layer1-604   layer2-1
 print("label len:", len(label_nameset))  # 320
 print("restdata len:", len(rest_nameset))  #1786 
 
+
+
 # # check
-# label_noJpg_nameset = {name for name in label_nameset if name not in data_nameset}
-# print(label_noJpg_nameset)
+label_noJpg_nameset = {name for name in label_nameset if name not in data_nameset}
+print(label_noJpg_nameset)
 
 
 def copyimg(data_folder, label_nameset, new_dir):
