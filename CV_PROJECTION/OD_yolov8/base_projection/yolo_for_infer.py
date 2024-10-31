@@ -439,7 +439,7 @@ class YOLO(object):
     def detect_cvimage(self, image):
         # image_shape = np.array(np.shape(image)[0:2])
         image_shape = image.shape[0:2]
-        image = cvtColor(image)  # 自定义函数
+        image = cvtColor(image)  # 自定义函数 -> rgb-image
         image_data = resize_image(image, (self.input_shape[1], self.input_shape[0]), self.letterbox_image)
         image_data = np.expand_dims(np.transpose(preprocess_input(np.array(image_data, dtype='float32')), (2, 0, 1)), 0)
 
