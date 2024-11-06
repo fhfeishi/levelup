@@ -75,7 +75,7 @@ def analysis_xml(xml_dir, output_file=None):
 
 
 
-xml_dir = r"D:\ddesktop\monitoring\framesdata\dataset\xmls"
+xml_dir = r"F:\switch\switch_data\1021newdata\dataset_train\xmls"
 
 txt_path = os.path.join(os.path.dirname(xml_dir), "datasetinfo.txt")
 # 调用函数
