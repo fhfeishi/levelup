@@ -2,6 +2,9 @@ import os
 from tqdm import tqdm
 from PIL import Image
 import shutil
+
+# 数据集路径中不要存在中文
+
 # # 1
 # # 去掉空格\中文 
 # # filename.replace(' ', '')

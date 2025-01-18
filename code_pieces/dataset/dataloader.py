@@ -79,7 +79,7 @@ class MyDataset(data.Dataset):
 
         crop_width, crop_height = window_size
         # 确保图像尺寸足够大
-        if w >= crop_width and h >= crop_height:
+        if w > crop_width and h > crop_height:
             while True:  # 无限循环  直到遇到下一个brake or  return
                 # 随机选择裁剪起点
                 x = random.randint(0, w - crop_width)

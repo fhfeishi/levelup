@@ -10,7 +10,7 @@ import xml.dom.minidom
 from PIL import Image
 import uuid
 
-def norm_filename(image_dir, label_dir, img_suffix='.jpg', lbl_suffix='.xml', rename_mode = None, image_save=None, label_save=None) -> None:
+def norm_filename(image_dir, label_dir, img_suffix='.jpg', lbl_suffix='.xml', rename_mode=None, image_save=None, label_save=None) -> None:
     
     if image_save is not None:
         os.makedirs(image_save, exist_ok=True)
@@ -19,7 +19,7 @@ def norm_filename(image_dir, label_dir, img_suffix='.jpg', lbl_suffix='.xml', re
     
     im_name = {f.split('.')[0] for f in os.listdir(image_dir) if f.endswith(img_suffix)}
     lb_name = {f.split('.')[0] for f in os.listdir(label_dir) if f.endswith(lbl_suffix)}
-    assert (im_name-lb_name) is {}, 'data not match!'
+    assert (im_name-lb_name) == set(), 'data not match!'
 
     ends_ = 0
     for name in list(im_name):
@@ -60,6 +60,9 @@ def norm_filename(image_dir, label_dir, img_suffix='.jpg', lbl_suffix='.xml', re
             shutil.copyfile(label_path, label_path_save)
                
         ends_ += 1
+
+
+
 
 def norm_xml(xml_lbl_path):
     # norm in place
