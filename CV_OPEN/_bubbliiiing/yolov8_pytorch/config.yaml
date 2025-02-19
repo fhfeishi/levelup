@@ -1,0 +1,16 @@
+# config
+dataset_cfg:
+  model_path: ""
+
+model_cfg:
+  model_name: ""
+  model_phi: "s"
+  model_input: [640,640]
+
+train_cfg:
+  batch_size: 2
+
+
+
+infer_cfg:
+  

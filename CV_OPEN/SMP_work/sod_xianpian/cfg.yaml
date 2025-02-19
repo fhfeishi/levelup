@@ -1,0 +1,13 @@
+logger_cfg: 'train.log'
+
+data_cfg:
+  root: ''
+  crop_size: Fasle
+
+trainer_cfg:
+  enable_float16: True
+  with_test: True
+  log_iter: 10
+  save_iter: 100
+  save_name: tmp
+  total_iter: 80000
