@@ -41,6 +41,7 @@ temp/
 # 忽略 build/ 目录下的所有 .o 和 .a 文件
 build/*.o
 build/*.a
+build/
 
 # 忽略所有 .pdf 文件，但不忽略 doc/notes.pdf
 *.pdf
