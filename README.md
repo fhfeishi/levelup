@@ -1,26 +1,50 @@
-# structure
-'
-|-----code_pieces
-            |---slide_predict
-            |---files_
-            |---
+**levelup_repo structure**
 
-|----CV_IMAGE
-        |---slide_    
- 
-|----CV_OPEN
-        |---openmmlab
-        |---paddlepaddle
-        |---pypi_pkgs
-        |---other_repos
+目前基本就是python啦，java ++ ， JavaScript ++
 
-|----CV_PROJECTIONS
-        |----deployment
-        |----SS_u2net
-        |----SOD_u2net
-
-|----my_python
-|----my_java
-|----leetcode
-
-'
+```
+└─- levelup
+        ├─-- /code_pieces  # python codes
+        ├─-- /ZcvZ 
+                ├─--- /ZdatasetZ
+                ├─--- /ZoptimizerZ
+                ├─--- /ZtrainZ
+        ├─-- /cv_open_resources
+                ├─--- /ZpytorchZ
+                ├─--- /ZpaddleZ
+                ├─--- /ZmindsporeZ
+                ├─--- /ZbubbliiiingZ
+                        ├─---- study_log.ipynb
+                ├─--- /ZwzZ
+                        ├─---- study_log.ipynb
+                ├─--- /ZmliZ
+                        ├─---- study_log.ipynb
+                ├─--- /ZhuggingfaceZ
+                        ├─---- study_log.ipynb
+                ├─--- /ZopenmmlabZ
+                ├─--- /ZpaddleyoloZ
+                        ├─---- projs_align.ipynb
+                ├─--- /ZmindyoloZ
+                        ├─---- projs_align.ipynb
+                ├─--- /ZsmpZ
+                ...
+        ├─-- /cvprojs_objection_detection
+                ├─--- pytorch_yolov8
+                ├─--- ...
+        ├─-- /cvprojs_slient_obeject_detection
+                ├─--- pytorch_u2net
+        ├─-- /cvprojs_semantic_segmentation
+                ├─--- pytorch_unet
+                ├─--- ...
+        ├─-- /deploy_projection
+                ├─--- ...
+        ├─-- /ZdeployZ
+        ├─-- /ZpythonZ
+        ├─-- /ZjavaZ
+        ├─-- /ZjavascriptZ
+        ├─-- /rijiyuelei
+                ├─--- ZgitZ
+                ├─--- ZnumpyZ
+                ├─--- ZmatplotlibZ
+                ├─--- ZopencvZ
+```
