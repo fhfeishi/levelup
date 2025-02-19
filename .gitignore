@@ -1,6 +1,12 @@
 # 忽略所有 .log 文件
 *.log
 
+# 忽略所有的 .pt .pth .ckpt .pdparams 权重文件
+*.pt
+*.pth
+*.ckpt
+*.pdparams
+
 # 忽略所有vscode配置文件
 /.vscode
 
