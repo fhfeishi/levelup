@@ -2,8 +2,6 @@ import os
 import xml.etree.ElementTree as ET
 from collections import defaultdict
 
-
-
 def analysis_xml(xml_dir, output_file=None):
     # 字典存储各个类别的计数
     class_count = defaultdict(int)
