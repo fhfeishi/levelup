@@ -101,9 +101,9 @@ def get_png_from_palette(png_folder, rgb_to_label_value, save_dir):
             for i in range(png_array.shape[0]):
                 for j in range(png_array.shape[1]):
                     rgb = tuple(png_array[i, j, :3])  
-                    # # key: str(color)
-                    indexed_png[i, j] = rgb_to_label_value.get(rgb, 0)  # 0是设置的默认值，如果没找到这个rgb
-                    # # key: tuple(color) 
+                    # # # key: tuple(color)
+                    # indexed_png[i, j] = rgb_to_label_value.get(rgb, 0)  # 0是设置的默认值，如果没找到这个rgb
+                    # # key:  str(color)
                     indexed_png[i, j] = rgb_to_label_value.get(str(rgb), 0)  # 0是设置的默认值，如果没找到这个rgb
 
             # print(indexed_png)
