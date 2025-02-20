@@ -48,3 +48,13 @@
                 ├─--- ZmatplotlibZ
                 ├─--- ZopencvZ
 ```
+
+
+**目标是提升工程能力。**
+
+- 下一步计划
+        - cv +
+        - rl +
+        - audio、nlp
+        - javascript
+        - java
