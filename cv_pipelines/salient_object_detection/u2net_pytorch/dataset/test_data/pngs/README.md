@@ -1,0 +1,1 @@
+test mask images, binary image, for sod task

@@ -1,0 +1,101 @@
+# .env
+*.env 
+
+# 本地归档：只保留在机器上，不进入 git
+/archive/local_ignored/
+
+# 忽略所有 .log 文件
+*.log
+
+# 忽略pycharm的文件
+/.idea
+
+# 忽略所有的 .pt .pth .ckpt .pdparams 权重文件
+*.pt
+*.pth
+*.ckpt
+*.pdparams
+*.pdiparams
+*.pdiparams.info
+*.pdmodel
+*.onnx
+*.engine
+*.tflite
+
+# 忽略本地二进制依赖和生成产物
+*.whl
+*.dat
+*.bz2
+*.mp4
+*.class
+*.pyc
+
+# 忽略所有vscode配置文件
+/.vscode
+
+# 忽略所有.ipynb_checkpoints
+**/.ipynb_checkpoints/*
+
+# 忽略一些随便写写的code
+/others.py
+/zzzz_code
+/OTHERS
+
+# 忽略数据集数据文件
+**/SegmentationClass/*.png
+**/Annotations/*.xml
+**/JPEGImages/*.jpg
+
+# 忽略所有  /raw_data/ 、 /train_data/、 /test_data/、、
+**/raw_data/**/*.jpg
+**/raw_data/**/*.png
+**/raw_data/**/*.json
+
+**/train_data/**/*.jpg
+**/train_data/**/*.png
+
+**/test_data/**/*.jpg
+**/test_data/**/*.png
+
+# 忽略所有的 __pycache__
+**/__pycache__/*
+__pycache__/
+
+# 常见训练/推理输出
+logs/
+weights/
+runs/
+outputs/
+map_out/
+
+# 忽略所有.idea
+.idea/*
+
+# 但是跟踪名为 `trace.log` 的文件
+!trace.log
+
+# 忽略所有目录下的 `temp` 文件夹
+temp/
+
+# 忽略根目录下的 TODO 文件，不忽略 subdir/TODO
+/TODO
+
+# 忽略 build/ 目录下的所有 .o 和 .a 文件
+build/*.o
+build/*.a
+build/
+
+# 忽略所有 .pdf 文件，但不忽略 doc/notes.pdf
+*.pdf
+!doc/notes.pdf
+
+# 忽略所有 .txt 文件，除了 doc/ 目录下的 .txt 文件
+*.txt
+!doc/*.txt
+!**/*.example.txt
+!**/requirements.txt
+
+# 忽略所有 .abc 文件，除了 src/ 目录及其子目录下的 .abc 文件
+*.abc
+!src/**/*.abc
+
