@@ -1,5 +1,0 @@
-# RAG retrieve-augmentation-generation
-
-
-
-
