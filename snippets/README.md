@@ -10,6 +10,7 @@
 | `file_tools/` | 批量文件处理、PDF 合并/解析。 |
 | `python/` | 爬虫、环境检查、反射/参数、设计模式。 |
 | `ai/` | MNIST 多框架、HuggingFace、RAG 片段。 |
+| `rags/` | RAG 检索基础：关键词搜索、语义搜索、混合检索、chunking、评估。 |
 | `shell/` | WSL 和 bash 配置脚本。 |
 | `visualization/` | 可视化和小玩具。 |
 
