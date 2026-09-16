@@ -5,6 +5,105 @@
 body {
   min-height: 100vh;
   margin: 0;
+  padding: 24px;
+
+  display: grid;
+  place-items: center;
+
+
+  color: #18181b;
+  background-color: #f4f4f5;
+  font-family: Arial, sans-serif;
 }
 
-/* 按照 README.md 的要求，从这里开始设计你的页面。 */
+.profile-card {
+  width: 100%;
+  max-width: 650px;
+  padding: 32px;
+
+  background-color: #ffffff;
+  border: 1px solid #d4d4d8;
+  border-radius: 16px;
+  box-shadow: 0 16px 40px rgba(240, 24, 28, 0.4);
+
+}
+
+
+.profile-card h1 {
+  margin: 0;
+
+  font-size: 2rem;
+  line-height: 1.2;
+
+}
+
+.profile-card p {
+  margin: 8px 0 0 0;
+
+  color: #52525b;
+  line-height: 1.6;
+}
+
+.profile-card section {
+  margin-top: 24px;
+}
+
+.profile-card h2 {
+  margin: 0 0 12px;
+
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
+.learning ul {
+  margin: 0;
+  padding-left: 20px;
+
+  line-height: 1.8;
+}
+
+
+.links a {
+  display: inline-block;
+  margin-right: 8px;
+  padding: 8px 12px;
+
+  color: #4338ca;
+  background-color: #eef2ff;
+  border: 1px solid #c7d2fe;
+  border-radius: 8px;
+
+  text-decoration: none;
+
+  transition:
+  color 160ms ease,
+  background-color 160ms ease,
+  border-color 160ms ease,
+  transform 160ms ease;
+}
+
+
+.links a:hover {
+  color: #ffffff;
+  background-color: #4338ca;
+  border-color: #4338ca;
+
+  transform: translateY(-2px);
+}
+
+.links a:active {
+  transform: translateY(0);
+}
+
+.links a:focus-visible {
+  outline: 3px solid #818cf8;
+  outline-offset: 10px;
+}
+
+
+
+
+
+
+
+
